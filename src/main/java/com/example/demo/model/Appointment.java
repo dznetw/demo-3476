@@ -5,10 +5,8 @@ import java.time.LocalTime;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "Appointments")
 public class Appointment {
 
     @Id

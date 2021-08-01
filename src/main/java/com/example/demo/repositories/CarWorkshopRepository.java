@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 public interface CarWorkshopRepository extends Repository<CarWorkshop, Long> {
 
     // note: returning Stream might have better performance
-    @Query("SELECT c from CarWorkshops c where c.name=:workshopName")
+    @Query("SELECT c from CarWorkshop c where c.name=:workshopName")
     Optional<CarWorkshop> findFirstByName(String workshopName);
 }

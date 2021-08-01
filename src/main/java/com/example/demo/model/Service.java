@@ -3,10 +3,8 @@ package com.example.demo.model;
 import java.time.Duration;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "Services")
 public class Service {
 
     @Id
