@@ -3,14 +3,24 @@ package com.example.demo.model;
 import java.time.Duration;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Services")
 public class Service {
 
     @Id
-    private long id;
+    private Long id;
     private String code;
     private Duration duration;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCode() {
         return code;

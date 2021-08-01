@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface AppointmentRepository extends Repository<Appointment, Long> {
 
-    @Query("SELECT a from Appointment a where a.workshop.name=:workshopName ")
+    // note: returning Stream might have better performance
+    @Query("SELECT a from Appointments a where a.workshop.name=:workshopName and a.date=:date")
     List<Appointment> findByWorkshopAndDate(String workshopName, LocalDate date);
 }
