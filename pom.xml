@@ -14,8 +14,16 @@
 	<name>demo</name>
 	<description>Demo project</description>
 	<properties>
+		<!-- PROJECT config -->
 		<java.version>16</java.version>
+
+		<!-- plugin versions -->
+		<openapi-generator-maven-plugin.version>5.1.0</openapi-generator-maven-plugin.version>
+
+		<!-- dependency versions -->
 		<testcontainers.version>1.15.3</testcontainers.version>
+		<swagger-annotations.version>1.6.2</swagger-annotations.version>
+		<validation-api.version>2.0.1.Final</validation-api.version>
 	</properties>
 
 	<repositories>
@@ -60,7 +68,18 @@
 			<artifactId>postgresql</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>${swagger-annotations.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${validation-api.version}</version>
+		</dependency>
 	</dependencies>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -81,5 +100,41 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>generate-rest-api</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.openapitools</groupId>
+						<artifactId>openapi-generator-maven-plugin</artifactId>
+						<version>${openapi-generator-maven-plugin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<inputSpec>
+										${project.basedir}/rest-api-spec.yml
+									</inputSpec>
+									<generatorName>spring</generatorName>
+									<apiPackage>com.example.demo.api</apiPackage>
+									<modelPackage>com.example.demo.api.model</modelPackage>
+									<supportingFilesToGenerate>
+										ApiUtil.java
+									</supportingFilesToGenerate>
+									<configOptions>
+										<delegatePattern>true</delegatePattern>
+									</configOptions>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
