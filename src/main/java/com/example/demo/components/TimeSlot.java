@@ -13,12 +13,19 @@ public final class TimeSlot {
     private final String key;
     private final LocalTime slotTime;
     private final int maxParallelAppointments;
-    private int parallelAppointments;
+    // if multi-threading is required, use AtomicInteger instead
+    private int parallelCount;
 
-    public TimeSlot(LocalTime slotTime, int maxParallelAppointments) {
-        this.slotTime = Objects.requireNonNull(slotTime, "Checked Slot needs a slot time!");
-        this.key = this.slotTime.format(KEY_FORMATTER);
+    private TimeSlot(String key, LocalTime slotTime, int maxParallelAppointments) {
+        this.key = key;
+        this.slotTime = slotTime;
         this.maxParallelAppointments = maxParallelAppointments;
+    }
+
+    public static TimeSlot newInstance(LocalTime slotTime, int maxParallelAppointments) {
+        Objects.requireNonNull(slotTime, "Time Slot needs a local time instance!");
+
+        return new TimeSlot(slotTime.format(KEY_FORMATTER), slotTime, maxParallelAppointments);
     }
 
     public String getKey() {
@@ -30,11 +37,11 @@ public final class TimeSlot {
     }
 
     public void incrementParallelCount() {
-        this.parallelAppointments += 1;
+        this.parallelCount += 1;
     }
 
     public boolean isBlocked() {
-        return this.parallelAppointments >= maxParallelAppointments;
+        return this.parallelCount >= maxParallelAppointments;
     }
 
     @Override
@@ -60,7 +67,7 @@ public final class TimeSlot {
                 .add("key='" + key + "'")
                 .add("slotTime=" + slotTime)
                 .add("maxParallelAppointments=" + maxParallelAppointments)
-                .add("parallelAppointments=" + parallelAppointments)
+                .add("parallelAppointments=" + parallelCount)
                 .toString();
     }
 }

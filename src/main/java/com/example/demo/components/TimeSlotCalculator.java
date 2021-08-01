@@ -19,7 +19,7 @@ public class TimeSlotCalculator {
         LocalTime currentSlot = appointment.getStart();
 
         while (currentSlot.isBefore(end)) {
-            final TimeSlot slot = new TimeSlot(currentSlot, maxParallelSlots);
+            final TimeSlot slot = TimeSlot.newInstance(currentSlot, maxParallelSlots);
             slot.incrementParallelCount();
 
             coveredTimeSlots.add(slot);
